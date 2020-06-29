@@ -10,5 +10,9 @@ WScript.Sleep 1000
 oShell.Sendkeys "messb0i5trange~"
 WScript.Sleep 1000
 oShell.Sendkeys "reboot~"
-WScript.Sleep 1000
-Wscript.Quit
+WScript.Sleep 3000
+oShell.Sendkeys "exit~"
+WScript.Sleep 3000
+oShell.Sendkeys "t~"
+WScript.Sleep 3000
+oShell.Sendkeys "q~"

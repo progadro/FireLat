@@ -19,3 +19,4 @@ echo Current ping for %adress%: %ping%
 PING localhost -n %speed% >NUL
 
 goto :ping
+
