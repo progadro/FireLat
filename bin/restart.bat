@@ -1,0 +1,1 @@
+TST10.exe /r:script.txt
