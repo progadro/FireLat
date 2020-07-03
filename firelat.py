@@ -13,8 +13,8 @@ while lat>49:
     time.sleep(63)
     print("Restart Complete.")
     response_list=ping('155.133.232.98')
-    print("Latency after restart= ",lat,"ms")
     lat=response_list.rtt_avg_ms
+    print("Latency after restart= ",lat,"ms")
     if lat<49:
         break
 print("Final latency= ",lat,"ms")
