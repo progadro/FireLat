@@ -6,6 +6,7 @@ Fot running the firelat.py you need to have Python 3.7 and some modules installe
 To install those modules, Simply run these commands in your CMD.
 
 pip install requests
+
 pip install pythonping
 
 After running these commands, Run firelat.py to start the program. 
