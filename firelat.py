@@ -1,23 +1,20 @@
+from selenium import webdriver
+from selenium.webdriver.common.keys import Keys
 from pythonping import ping
 import requests
 import subprocess
 import time
-response_list=ping('155.133.232.98')
-print("==FireLat v1.0== \nSimple utility to fix ISP routing issues.")
-lat=response_list.rtt_avg_ms
-print("Latency before run-time= ",lat,"ms")
-print("IP before run-time: ",requests.get("http://ipconfig.in/ip").text)
-while lat>49:
-    print("Restarting Modem..")
-    subprocess.run('restart.exe')
-    time.sleep(63)
-    print("Restart Complete.")
-    response_list=ping('155.133.232.98')
-    lat=response_list.rtt_avg_ms
-    print("Latency after restart= ",lat,"ms")
-    if lat<49:
-        break
-print("Final latency= ",lat,"ms")
-print("IP address: ",requests.get("http://ipconfig.in/ip").text)
-input("Press Enter to Quit.")
-    
+browser = webdriver.Firefox(executable_path = 'bin\geckodriver.exe')
+browser.get('http://192.168.1.1')
+username=browser.find_element_by_id('username')
+password=browser.find_element_by_id('psd')
+capcha=browser.find_element_by_id('check_code')
+capcha_verifier=browser.find_element_by_id('verification_code')
+capcha_code=capcha.get_attribute('value')
+username.send_keys('admin')
+password.send_keys("messb0i5trange")
+capcha_verifier.send_keys(capcha_code)
+capcha_verifier.send_keys(Keys.RETURN);
+
+
+
