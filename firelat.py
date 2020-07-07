@@ -1,5 +1,6 @@
 from pythonping import ping
 from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.keys import Keys
 import requests
 import subprocess
@@ -10,9 +11,14 @@ lat=response_list.rtt_avg_ms
 print("Latency before run-time= ",lat,"ms")
 print("IP before run-time: ",requests.get("http://ipconfig.in/ip").text)
 login=0
+head_less = Options()
+head_less.headless = True
+###############################
+# Checking Latency
+###############################
 while lat>49:
     print("Restarting Modem..")
-    browser = webdriver.Chrome(executable_path='bin\chromedriver.exe')
+    browser = webdriver.Chrome(executable_path='bin\chromedriver.exe',options=head_less) #Starting WebDriver
     if login==0:
         browser.get('http://192.168.1.1')
         username = browser.find_element_by_id('username')
@@ -34,7 +40,7 @@ while lat>49:
     browser.switch_to.frame('mainFrame')
     time.sleep(2)
     browser.execute_script("on_submit('sv')")
-    browser.close()
+    browser.close() #Closing WebDriver, Having some issues, chromedriver.exe not closing on exit.
     time.sleep(10)
     print("Restart Complete.")
     response_list=ping('155.133.232.98')

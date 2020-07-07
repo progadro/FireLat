@@ -1,10 +1,13 @@
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.chrome.options import Options
 from pythonping import ping
 import requests
 import subprocess
 import time
-browser = webdriver.Chrome(executable_path = 'bin\chromedriver.exe')
+head_less = Options()
+head_less.headless = True
+browser = webdriver.Chrome(executable_path = 'bin\chromedriver.exe',options=head_less)
 browser.get('http://192.168.1.1')
 username=browser.find_element_by_id('username')
 password=browser.find_element_by_id('psd')
