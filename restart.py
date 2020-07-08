@@ -4,10 +4,12 @@ from selenium.webdriver.chrome.options import Options
 from pythonping import ping
 import requests
 import subprocess
+import os
 import time
-head_less = Options()
-head_less.headless = True
-browser = webdriver.Chrome(executable_path = 'bin\chromedriver.exe',options=head_less)
+properties = Options()
+properties.headless = True
+properties.binary_location=r'bin\chromium\chrome.exe'
+browser = webdriver.Chrome(executable_path='bin\chromedriver.exe',options=properties)
 browser.get('http://192.168.1.1')
 username=browser.find_element_by_id('username')
 password=browser.find_element_by_id('psd')
@@ -26,6 +28,7 @@ browser.switch_to.frame('mainFrame')
 time.sleep(2)
 browser.execute_script("on_submit('sv')")
 browser.close()
+os.system("taskkill /f /im chromedriver.exe")
 
 
 
