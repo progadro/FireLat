@@ -7,7 +7,7 @@ import os
 import subprocess
 import time
 response_list=ping('155.133.232.98')
-print("==FireLat v1.0== \nSimple utility to fix ISP routing issues.")
+print("==FireLat v1.0== \nUtility to fix BSNL Routing issues.\nCoded by Strange.")
 lat=response_list.rtt_avg_ms
 print("Latency before run-time= ",lat,"ms")
 print("IP before run-time: ",requests.get("http://ipconfig.in/ip").text)
@@ -16,26 +16,23 @@ properties = Options()
 properties.headless = True
 properties.binary_location=r'bin\chromium\chrome.exe'
 kill_driver=0
+browser = webdriver.Chrome(executable_path='bin\chromedriver.exe', options=properties)
+browser.get('http://192.168.1.1')
+username = browser.find_element_by_id('username')
+password = browser.find_element_by_id('psd')
+capcha = browser.find_element_by_id('check_code')
+capcha_verifier = browser.find_element_by_id('verification_code')
+capcha_code = capcha.get_attribute('value')
+username.send_keys('admin')
+password.send_keys("messb0i5trange")
+capcha_verifier.send_keys(capcha_code)
+capcha_verifier.send_keys(Keys.RETURN)
 ###############################
 # Checking Latency
 ###############################
-while lat>49:
+while lat>45:
     print("Restarting Modem..")
-    browser = webdriver.Chrome(executable_path='bin\chromedriver.exe',options=properties) #Starting WebDriver
-    if login==0:
-        browser.get('http://192.168.1.1')
-        username = browser.find_element_by_id('username')
-        password = browser.find_element_by_id('psd')
-        capcha = browser.find_element_by_id('check_code')
-        capcha_verifier = browser.find_element_by_id('verification_code')
-        capcha_code = capcha.get_attribute('value')
-        username.send_keys('admin')
-        password.send_keys("messb0i5trange")
-        capcha_verifier.send_keys(capcha_code)
-        capcha_verifier.send_keys(Keys.RETURN)
-        login=1
-    browser.get('http://192.168.1.1')
-    browser.execute_script('on_init()')
+    browser.switch_to.parent_frame()
     browser.switch_to.frame('topFrame')
     browser.execute_script("on_catolog('1')")
     browser.execute_script("on_menu('1')")
@@ -43,15 +40,18 @@ while lat>49:
     browser.switch_to.frame('mainFrame')
     time.sleep(2)
     browser.execute_script("on_submit('sv')")
-    browser.close() #Closing WebDriver, Having some issues, chromedriver.exe not closing on exit.
-    #Maybe try closing the process with import os and os.system("taskkill /f /im make.exe")
-    time.sleep(10)
+    time.sleep(4)
     print("Restart Complete.")
     response_list=ping('155.133.232.98')
     lat=response_list.rtt_avg_ms
     print("Latency after restart= ",lat,"ms")
-    if lat<49:
+    print("IP address after restart: ", requests.get("http://ipconfig.in/ip").text)
+    if lat<45:
         kill_driver=1
+        browser.switch_to.parent_frame()
+        browser.switch_to.frame('topFrame')
+        logout = browser.find_element_by_xpath(r'/html/body/form/table[2]/tbody/tr[1]/td[2]/font[2]/input')
+        logout.click()
         break
 if kill_driver==1:
     os.system("taskkill /f /im chromedriver.exe")
