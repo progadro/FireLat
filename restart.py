@@ -34,6 +34,7 @@ logout=browser.find_element_by_xpath(r'/html/body/form/table[2]/tbody/tr[1]/td[2
 logout.click()
 browser.close()
 os.system("taskkill /f /im chromedriver.exe")
+os.system("taskkill /f /im chrome.exe")
 
 
 
