@@ -58,6 +58,7 @@ while lat > 45:
         os.system("taskkill /f /im chromedriver.exe")
         os.system("taskkill /f /im chrome.exe")
         break
+print("==Process Complete==")
 print("Final latency= ",lat,"ms")
 print("IP address: ", requests.get("http://ipconfig.in/ip").text)
 input("Press Enter to Quit.")
