@@ -4,8 +4,6 @@ Works on Selenium, Can be tuned to suit your Modem/Browser needs.
 
 Python Packages necessary:
 
-selenium
-pythonping
-requests
+selenium, pythonping, requests
 
 
