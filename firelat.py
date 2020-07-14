@@ -3,20 +3,21 @@ from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.keys import Keys
 import requests
+import sys
 import os
-import logging
-import subprocess
 import time
 response_list=ping('155.133.232.98')
-print("==FireLat v1.0== \nUtility to fix BSNL Routing issues.\nCoded by Strange.")
+print("==FireLat Web== \nUtility to fix BSNL Routing issues.\nCoded by Strange.")
 lat=response_list.rtt_avg_ms
 print("Latency before run-time= ",lat,"ms")
 print("IP before run-time: ",requests.get("http://ipconfig.in/ip").text)
 login = 0
+if lat < 45:
+    login = 1
 properties = Options()
 properties.headless = True
+properties.add_argument('--silent')
 properties.binary_location = r'bin\chromium\chrome.exe'
-kill_driver = 0
 browser = webdriver.Chrome(executable_path='bin\chromedriver.exe', options=properties)
 browser.get('http://192.168.1.1')
 username = browser.find_element_by_id('username')
@@ -32,7 +33,7 @@ capcha_verifier.send_keys(Keys.RETURN)
 # Checking Latency
 ###############################
 while lat > 45:
-    print("Restarting Modem..")
+    print("Restarting Connection..")
     browser.switch_to.parent_frame()
     browser.switch_to.frame('topFrame')
     browser.execute_script("on_catolog('1')")
@@ -49,16 +50,24 @@ while lat > 45:
     print("Latency after restart= ", lat, "ms")
     print("IP address after restart: ", requests.get("http://ipconfig.in/ip").text)
     if lat < 45:
-        kill_driver = 1
         browser.switch_to.parent_frame()
         browser.switch_to.frame('topFrame')
         logout = browser.find_element_by_xpath(r'/html/body/form/table[2]/tbody/tr[1]/td[2]/font[2]/input')
         logout.click()
         browser.close()
-        os.system("taskkill /f /im chromedriver.exe")
-        os.system("taskkill /f /im chrome.exe")
+        os.system("taskkill /f /im chromedriver.exe")#Cleaning up.
+        os.system("taskkill /f /im chrome.exe")#Cleaning up.
         break
+if login == 1:
+    browser.switch_to.parent_frame()
+    browser.switch_to.frame('topFrame')
+    logout = browser.find_element_by_xpath(r'/html/body/form/table[2]/tbody/tr[1]/td[2]/font[2]/input')
+    logout.click()
+    browser.close()
+    os.system("taskkill /f /im chromedriver.exe")#Cleaning up.
+    os.system("taskkill /f /im chrome.exe")#Cleaning up.
 print("==Process Complete==")
 print("Final latency= ",lat,"ms")
 print("IP address: ", requests.get("http://ipconfig.in/ip").text)
-input("Press Enter to Quit.")
+input("Press Enter to exit.")
+sys.exit()
