@@ -6,8 +6,8 @@ import requests
 import sys
 import os
 import time
-response_list=ping('155.133.232.98')
-print("==FireLat Web== \nUtility to fix BSNL Routing issues.\nCoded by Strange.")
+response_list=ping('139.99.68.225')
+print("==FireLat Web== \nFaceit Routing Optimizer for BSNL(NETLINK).\nCoded by Strange.")
 lat=response_list.rtt_avg_ms
 print("Latency before run-time= ",lat,"ms")
 print("IP before run-time: ",requests.get("http://ipconfig.in/ip").text)
@@ -45,7 +45,7 @@ while lat > 45:
     browser.execute_script("on_submit('sv')")
     time.sleep(8)
     print("Restart Complete.")
-    response_list = ping('155.133.232.98')
+    response_list = ping('139.99.68.225')
     lat = response_list.rtt_avg_ms
     print("Latency after restart= ", lat, "ms")
     print("IP address after restart: ", requests.get("http://ipconfig.in/ip").text)
